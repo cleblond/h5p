@@ -1,0 +1,24 @@
+{
+  "name": "carl/h5prepo",
+  "type": "grav-plugin",
+  "description": "h5p repository",
+  "keywords": ["plugin"],
+  "homepage": "https://github.com/carl/grav-plugin-h5prepo",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Carl",
+      "email": "openochem@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Grav\\Plugin\\H5prepo\\": "classes/"
+    },
+    "classmap":  ["h5prepo.php"]
+  }
+}

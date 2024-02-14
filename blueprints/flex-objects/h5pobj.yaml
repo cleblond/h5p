@@ -1,0 +1,141 @@
+title: 'H5P'
+description: 'H5P Admin'
+type: flex-objects
+
+# Flex Configuration
+config:
+    # Administration Configuration
+    admin:
+        # Admin router (optional)
+        router:
+            path: '/h5pobj'
+
+        # Admin menu (optional)
+        menu:
+            list:
+                route: '/h5pobj'
+                title: 'H5P'
+                icon: fa-address-card-o
+                # Authorization to collection admin
+                authorize: ['admin.h5pobj.list', 'admin.super']
+                # Priority -10 .. 10 (highest goes up)
+                priority: 2
+
+        # Admin template type / folder
+        template: default
+
+        # Permissions
+        permissions:
+            # Primary permissions
+            admin.h5pobj:
+                type: crudpl
+                label: 'H5pobj'
+
+        # List view
+        list:
+            title: name
+            fields:
+                published:
+                    field:
+                        type: toggle
+                        label: Published
+                    width: 8
+                name:
+                    link: edit
+                description:
+
+        # Edit View
+        edit:
+            title:
+                template: ''
+
+        # Preview View
+        preview:
+            enabled: false
+            route:
+            #template: '/plugins/flex-objects/directory:contacts'
+
+        # Data Export
+        export:
+            enabled: true
+            method: 'jsonSerialize'
+            formatter:
+                class: 'Grav\Framework\File\Formatter\YamlFormatter'
+            filename: 'h5pobj'
+
+    # Site Configuration
+    site:
+        templates:
+            collection:
+                # Lookup for the template layout files for collections of objects
+                paths:
+                    - 'flex/{TYPE}/collection/{LAYOUT}{EXT}'
+            object:
+                # Lookup for the template layout files for objects
+                paths:
+                    - 'flex/{TYPE}/object/{LAYOUT}{EXT}'
+            defaults:
+                # Default template {TYPE}; overridden by filename of this blueprint if template folder exists
+                type: 'h5pobj'
+                # Default template {LAYOUT}; can be overridden in render calls (usually Twig in templates)
+                layout: default
+
+    # Data Configuration
+    data:
+        # Object class to be used, allowing custom methods for the object
+        object: 'Grav\Plugin\H5prepo\Flex\Types\H5pobj\H5pobjObject'
+        # Collection class to be used, allowing custom methods for the collections
+        collection: 'Grav\Plugin\H5prepo\Flex\Types\H5pobj\H5pobjCollection'
+        # Index class to be used, works as a quick database-like lookup index
+        index: 'Grav\Common\Flex\Types\Generic\GenericIndex'
+        storage:
+            # Storage class, use single file storage (does not support images and assets)
+            class: 'Grav\Framework\Flex\Storage\FolderStorage'
+            options:
+                formatter:
+                    # File formatter class, in this case the file is stored in markdown
+                    class: 'Grav\Framework\File\Formatter\JsonFormatter'
+                # JSON file where all the objects will be stored
+                folder: user-data://h5pobj
+        search:
+            # Search options
+            options:
+                contains: 1
+            # Fields to be searched
+            fields:
+                - name
+                - description
+
+form:
+    validation: loose
+    fields:
+        published:
+            type: toggle
+            label: Published
+            highlight: 1
+            default: 1
+            options:
+                1: PLUGIN_ADMIN.YES
+                0: PLUGIN_ADMIN.NO
+            validate:
+                type: bool
+                required: true
+        name:
+            type: text
+            label: Name
+            validate:
+                required: true
+        description:
+            type: text
+            label: Description
+            validate:
+                required: true
+        custom_file:
+          name: myfile
+          type: file
+          label: A Label
+          destination: 'plugins://h5prepo/assets'
+          multiple: true
+          autofocus: false
+          accept:
+            - .h5p

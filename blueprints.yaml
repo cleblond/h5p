@@ -1,0 +1,36 @@
+name: H5prepo
+slug: h5prepo
+type: plugin
+version: 0.1.0
+description: h5p repository
+icon: plug
+author:
+  name: Carl
+  email: openochem@gmail.com
+homepage: https://github.com/carl/grav-plugin-h5prepo
+demo: http://demo.yoursite.com
+keywords: grav, plugin, etc
+bugs: https://github.com/carl/grav-plugin-h5prepo/issues
+docs: https://github.com/carl/grav-plugin-h5prepo/blob/develop/README.md
+license: MIT
+
+dependencies:
+  - { name: grav, version: '>=1.6.0' }
+
+form:
+  validation: loose
+  fields:
+    enabled:
+      type: toggle
+      label: PLUGIN_ADMIN.PLUGIN_STATUS
+      highlight: 1
+      default: 0
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+    text_var:
+      type: text
+      label: PLUGIN_H5PREPO.TEXT_VARIABLE
+      help: PLUGIN_H5PREPO.TEXT_VARIABLE_HELP
