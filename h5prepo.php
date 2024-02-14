@@ -59,10 +59,25 @@ class H5prepoPlugin extends Plugin
     public function onPluginsInitialized(): void
     {
         // Don't proceed if we are in the admin plugin
+        
+        /*
         if ($this->isAdmin()) {
             return;
         }
-
+        */
+        
+        //dump($this);
+        //$this->grav['debugger']->addMessage("Here");
+        //$this->grav['debugger']->addMessage($this);
+        
+        /*
+        $this->grav['log']->warning('My warning message');
+	$this->grav['log']->error('My error message');
+	$this->grav['log']->critical('My critical message');
+	$this->grav['log']->alert('My alert message');
+	$this->grav['log']->emergency('Emergency, emergency, there is an emergency here!');
+        */
+        
         // Enable the main events we are interested in
         $this->enable([
             // Put your main events here
@@ -80,7 +95,7 @@ class H5prepoPlugin extends Plugin
 
     }
     
-    
+    /*
         
     public function onAdminAfterSaveAs($event)
     {
@@ -95,7 +110,7 @@ class H5prepoPlugin extends Plugin
             //my functions here
         }
     }
-    
+    */
     
     
     
@@ -104,10 +119,57 @@ class H5prepoPlugin extends Plugin
         $type = $event['type'];
         $object = $event['object'];
         //dump($event);
-        
+        $this->grav['debugger']->addMessage("Here");
         $this->grav['debugger']->addMessage($event);
+        $this->grav['debugger']->addMessage($object);
+        $flexdir = $object->getFlexDirectory();
+        
+        $this->grav['debugger']->addMessage($flexdir->getObject());
+        //$this->grav['debugger']->addMessage($object->getFlexKey());
+        $this->grav['debugger']->addMessage($object->getStorageKey());  
+        $this->grav['debugger']->addMessage(__DIR__);    
+        
+        $folder = $object->getStorageKey();
+        
+        // __DIR__ 
+        
+        $json = file_get_contents('/var/www/html/learn/user/data/h5pobj/'.$object->getStorageKey().'/item.json'); 
+        
+        $this->grav['debugger']->addMessage($json);
+        
+        $jsonobj = json_decode($json);   
+        $this->grav['debugger']->addMessage($jsonobj->custom_file);
+        
+        
+        $zip = new ZipArchive();
+	//$res = $zip->open('file.zip');
+	if ($res === TRUE) {
+	$zip->extractTo('/myzips/extract_path/');
+	$zip->close();
+	echo 'woot!';
+	} else {
+	echo 'doh!';
+	}
+
+        
+        
+        /*
+        $this->grav['log']->info('My informational message');
+	$this->grav['log']->notice('My notice message');
+	$this->grav['log']->debug('My debug message');
+	$this->grav['log']->warning('My warning message');
+	$this->grav['log']->error('My error message');
+	$this->grav['log']->critical('My critical message');
+	$this->grav['log']->alert('My alert message');
+	$this->grav['log']->emergency('Emergency, emergency, there is an emergency here!');
+        */
+        
+        
         //set commit message for flex objects
         if($type === 'flex'){
+            
+            //$json = file_get_contents('my_data.json'); 
+            
             
             //my functions here
         }
