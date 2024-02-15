@@ -4,6 +4,10 @@ namespace Grav\Plugin;
 use Composer\Autoload\ClassLoader;
 use Grav\Common\Plugin;
 use Grav\Events\FlexRegisterEvent;
+use ZipArchive;
+
+
+
 
 /**
  * Class H5prepoPlugin
@@ -116,63 +120,52 @@ class H5prepoPlugin extends Plugin
     
     public function onFlexAfterSave($event)
     {
-        $type = $event['type'];
+        //$type = $event['type'];
         $object = $event['object'];
-        //dump($event);
-        $this->grav['debugger']->addMessage("Here");
-        $this->grav['debugger']->addMessage($event);
-        $this->grav['debugger']->addMessage($object);
-        $flexdir = $object->getFlexDirectory();
-        
-        $this->grav['debugger']->addMessage($flexdir->getObject());
-        //$this->grav['debugger']->addMessage($object->getFlexKey());
-        $this->grav['debugger']->addMessage($object->getStorageKey());  
-        $this->grav['debugger']->addMessage(__DIR__);    
-        
-        $folder = $object->getStorageKey();
-        
-        // __DIR__ 
-        
-        $json = file_get_contents('/var/www/html/learn/user/data/h5pobj/'.$object->getStorageKey().'/item.json'); 
-        
-        $this->grav['debugger']->addMessage($json);
-        
-        $jsonobj = json_decode($json);   
-        $this->grav['debugger']->addMessage($jsonobj->custom_file);
-        
-        
-        $zip = new ZipArchive();
-	//$res = $zip->open('file.zip');
-	if ($res === TRUE) {
-	$zip->extractTo('/myzips/extract_path/');
-	$zip->close();
-	echo 'woot!';
-	} else {
-	echo 'doh!';
-	}
 
+        //$this->grav['debugger']->addMessage($object->getFlexType());
+
+        if ($object->getFlexType() == 'h5pobj') {
+
+            //$flexdir = $object->getFlexDirectory();
         
-        
-        /*
-        $this->grav['log']->info('My informational message');
-	$this->grav['log']->notice('My notice message');
-	$this->grav['log']->debug('My debug message');
-	$this->grav['log']->warning('My warning message');
-	$this->grav['log']->error('My error message');
-	$this->grav['log']->critical('My critical message');
-	$this->grav['log']->alert('My alert message');
-	$this->grav['log']->emergency('Emergency, emergency, there is an emergency here!');
-        */
-        
-        
-        //set commit message for flex objects
-        if($type === 'flex'){
             
-            //$json = file_get_contents('my_data.json'); 
+            $folder = $object->getStorageKey();
+
+            $json = file_get_contents('/var/www/html/learn/user/data/h5pobj/'.$object->getStorageKey().'/item.json'); 
+            
+            //$this->grav['debugger']->addMessage($json);
+            
+            $jsonobj = json_decode($json);   
+
+            foreach ($jsonobj->custom_file as $file) {
+                // Access the path of each file
+                $tpath = $file->path;
+
+            }
+            
+            $pieces = explode("//", $tpath);
+            $path = $pieces[1];
             
             
-            //my functions here
-        }
+            
+            $zip = new ZipArchive();
+            $filename = '';
+	        $res = $zip->open('/var/www/html/learn/user/plugins/'.$path);
+	        
+	        
+	        //$this->grav['debugger']->addMessage($path);
+		    //$this->grav['debugger']->addMessage($res);
+	        if ($res === TRUE) {
+	        $zip->extractTo('/var/www/html/learn/user/data/h5pobj/'.$folder);
+	        $zip->close();
+	        //echo 'woot!';
+	        }
+        
+        
+        
+        
+      }
     }
     
     
