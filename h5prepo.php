@@ -6,9 +6,6 @@ use Grav\Common\Plugin;
 use Grav\Events\FlexRegisterEvent;
 use ZipArchive;
 
-
-
-
 /**
  * Class H5prepoPlugin
  * @package Grav\Plugin
@@ -70,17 +67,6 @@ class H5prepoPlugin extends Plugin
         }
         */
         
-        //dump($this);
-        //$this->grav['debugger']->addMessage("Here");
-        //$this->grav['debugger']->addMessage($this);
-        
-        /*
-        $this->grav['log']->warning('My warning message');
-	$this->grav['log']->error('My error message');
-	$this->grav['log']->critical('My critical message');
-	$this->grav['log']->alert('My alert message');
-	$this->grav['log']->emergency('Emergency, emergency, there is an emergency here!');
-        */
         
         // Enable the main events we are interested in
         $this->enable([
@@ -99,23 +85,6 @@ class H5prepoPlugin extends Plugin
 
     }
     
-    /*
-        
-    public function onAdminAfterSaveAs($event)
-    {
-        $type = $event['type'];
-        $object = $event['object'];
-        //dump($event);
-                //dump("HERE");
-        //$this->grav['debugger']->addMessage($event);
-        //set commit message for flex objects
-        if($type === 'flex'){
-            
-            //my functions here
-        }
-    }
-    */
-    
     
     
     public function onFlexAfterSave($event)
@@ -127,47 +96,31 @@ class H5prepoPlugin extends Plugin
 
         if ($object->getFlexType() == 'h5pobj') {
 
-            //$flexdir = $object->getFlexDirectory();
-        
-            
-            $folder = $object->getStorageKey();
+		$folder = $object->getStorageKey();
 
-            $json = file_get_contents('/var/www/html/learn/user/data/h5pobj/'.$object->getStorageKey().'/item.json'); 
-            
-            //$this->grav['debugger']->addMessage($json);
-            
-            $jsonobj = json_decode($json);   
+		$json = file_get_contents('/var/www/html/learn/user/data/h5pobj/'.$object->getStorageKey().'/item.json'); 
 
-            foreach ($jsonobj->custom_file as $file) {
-                // Access the path of each file
-                $tpath = $file->path;
+		$jsonobj = json_decode($json);   
 
-            }
-            
-            $pieces = explode("//", $tpath);
-            $path = $pieces[1];
-            
-            
-            
-            $zip = new ZipArchive();
-            $filename = '';
-	        $res = $zip->open('/var/www/html/learn/user/plugins/'.$path);
-	        
-	        
-	        //$this->grav['debugger']->addMessage($path);
-		    //$this->grav['debugger']->addMessage($res);
-	        if ($res === TRUE) {
-	        $zip->extractTo('/var/www/html/learn/user/data/h5pobj/'.$folder);
-	        $zip->close();
-	        //echo 'woot!';
-	        }
-        
-        
-        
-        
-      }
+		foreach ($jsonobj->custom_file as $file) {
+		// Access the path of each file
+		$tpath = $file->path;
+
+		}
+
+		$pieces = explode("//", $tpath);
+		$path = $pieces[1];
+
+
+
+		$zip = new ZipArchive();
+		$filename = '';
+		$res = $zip->open('/var/www/html/learn/user/plugins/'.$path);
+		
+		if ($res === TRUE) {
+		$zip->extractTo('/var/www/html/learn/user/data/h5pobj/'.$folder);
+		$zip->close();
+		} 
+      	}
     }
-    
-    
-    
 }
