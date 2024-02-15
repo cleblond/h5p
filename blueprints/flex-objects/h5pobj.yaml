@@ -43,6 +43,7 @@ config:
                 name:
                     link: edit
                 description:
+                shortcode:
 
         # Edit View
         edit:
@@ -139,3 +140,9 @@ form:
           autofocus: false
           accept:
             - .h5p
+        shortcode:
+            type: text
+            label: Shortcode
+            validate:
+                required: false
+            disabled: true

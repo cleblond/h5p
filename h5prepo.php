@@ -97,6 +97,10 @@ class H5prepoPlugin extends Plugin
         if ($object->getFlexType() == 'h5pobj') {
 
 		$folder = $object->getStorageKey();
+		
+		$shortcode = "[h5prepo id=" . $folder . "]";
+		$object->setProperty('shortcode', $shortcode);
+		$object->save();
 
 		$json = file_get_contents('/var/www/html/learn/user/data/h5pobj/'.$object->getStorageKey().'/item.json'); 
 
@@ -123,4 +127,19 @@ class H5prepoPlugin extends Plugin
 		} 
       	}
     }
+    
+    
+        /**
+     * Register templates
+     *
+     * @return void
+     */
+    public function onTwigTemplatePaths()
+    {
+        //$this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
+    }
+    
+    
+    
+    
 }
