@@ -5,7 +5,7 @@ use Composer\Autoload\ClassLoader;
 use Grav\Common\Plugin;
 use Grav\Events\FlexRegisterEvent;
 use ZipArchive;
-
+use RocketTheme\Toolbox\Event\Event;
 /**
  * Class H5prepoPlugin
  * @package Grav\Plugin
@@ -36,8 +36,10 @@ class H5prepoPlugin extends Plugin
                 
                 
                 ],
-                
+                'onAssetsInitialized'  => [['onAssetsInitialized', 0]],
                 'onFlexAfterSave'  => [['onFlexAfterSave', 0]],
+                //'onTwigTemplatePaths'  => [['onTwigTemplatePaths', 0]],
+                //'onAdminTwigTemplatePaths' => [['onAdminTwigTemplatePaths', 0]],
                 
                 
             FlexRegisterEvent::class       => [['onRegisterFlex', 0]],
@@ -66,6 +68,20 @@ class H5prepoPlugin extends Plugin
             return;
         }
         */
+        if ($this->isAdmin()) {
+        
+           $this->enable([
+                /*'onAdminTwigTemplatePaths' => [
+                    ['onAdminTwigTemplatePaths', 10]
+                ],*/
+                'onTwigTemplatePaths'  => [['onTwigTemplatePaths', 0]],
+                'onAssetsInitialized'  => [['onAssetsInitialized', 0]],
+                
+                ]);
+        
+        }
+        
+        
         
         
         // Enable the main events we are interested in
@@ -128,6 +144,67 @@ class H5prepoPlugin extends Plugin
       	}
     }
     
+
+
+    public function onAssetsInitialized()
+    {
+    
+    
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-php-library/js/jquery.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-php-library/js/h5p.js');   
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-php-library/js/h5p-event-dispatcher.js');    
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-php-library/js/h5p-x-api-event.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-php-library/js/h5p-x-api.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-php-library/js/h5p-content-type.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-php-library/js/h5p-confirmation-dialog.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-php-library/js/h5p-action-bar.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-php-library/js/request-queue.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-php-library/js/h5p-tooltip.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5p-hub-client.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5p-hub-client.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-editor.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/language/en.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor.js'); 
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-semantic-structure.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-library-selector.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-fullscreen-bar.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-form.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-text.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-html.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-number.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-textarea.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-file-uploader.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-file.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-image.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-image-popup.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-av.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-group.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-boolean.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-list.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-list-editor.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-library.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-library-list-cache.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-select.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-selector-hub.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-selector-legacy.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-dimensions.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-coordinates.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-none.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-metadata.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-metadata-author-widget.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-metadata-changelog-widget.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/scripts/h5peditor-pre-save.js');
+$this->grav['assets']->addJs('plugin://' . $this->name . 'h5p-editor-php-library/ckeditor/ckeditor.js');
+    
+    
+    
+    
+    
+        $this->grav['assets']->addJs('plugin://' . $this->name . '/js/my-script.js');
+    }
+
+
     
         /**
      * Register templates
@@ -136,10 +213,28 @@ class H5prepoPlugin extends Plugin
      */
     public function onTwigTemplatePaths()
     {
-        //$this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
+        $this->grav['twig']->twig_paths[] = __DIR__ . '/templates/';
+        array_splice($this->grav['twig']->twig_paths, 0, 1);
+        $this->grav['debugger']->addMessage("here1");
+        $this->grav['debugger']->addMessage($this->grav['twig']->twig_paths);
     }
     
-    
+    public function onAdminTwigTemplatePaths(Event $event): void
+    {
+        $extra_admin_twig_path = $this->config->get('plugins.h5prepo.extra_admin_twig_path');
+        $extra_path = $extra_admin_twig_path ? $this->grav['locator']->findResource($extra_admin_twig_path) : null;
+
+        $paths = $event['paths'];
+        if ($extra_path) {
+            $paths[] = $extra_path;
+        }
+
+        $paths[] = __DIR__ . '/admin/templates/';
+        $event['paths'] = $paths;
+        //error_log(print_r($this->grav['twig']->twig_paths, true));
+        $this->grav['debugger']->addMessage("here");
+        $this->grav['debugger']->addMessage($paths);
+    }
     
     
 }

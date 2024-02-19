@@ -14,6 +14,15 @@ bugs: https://github.com/carl/grav-plugin-h5prepo/issues
 docs: https://github.com/carl/grav-plugin-h5prepo/blob/develop/README.md
 license: MIT
 
+events:
+  onTwigTemplatePaths:
+    method: onTwigTemplatePaths
+
+order:
+  before: admin-addon-revisions
+
+extra_admin_twig_path: 'admin/templates'
+
 dependencies:
   - { name: grav, version: '>=1.6.0' }
 
